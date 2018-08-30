@@ -6,14 +6,19 @@ services:
     image: redmine
     restart: always
     ports:
-      - 8080:3000
+      - 3001:3000
+    volumes: 
+      - ./data:/usr/src/redmine/files
     environment:
-      REDMINE_DB_MYSQL: db
-      REDMINE_DB_PASSWORD: example
+      POSTGRES_PORT_5432_TCP: postgres
+      POSTGRES_ENV_POSTGRES_USER: redmine
+      POSTGRES_ENV_POSTGRES_PASSWORD: password
+      POSTGRES_ENV_POSTGRES_DB: redmine
 
-  db:
-    image: mysql:5.7
-    restart: always
+  postgres:
+    image: postgres
     environment:
-      MYSQL_ROOT_PASSWORD: example
-      MYSQL_DATABASE: redmine
+      POSTGRES_PASSWORD: password
+      POSTGRES_USER: redmine
+    volumes:
+      - ./redmine/postgres_data:/var/lib/postgresql/data
