@@ -1,0 +1,24 @@
+version: '3.1'
+
+services:
+
+  redmine:
+    image: redmine
+    restart: always
+    ports:
+      - 3001:3000
+    volumes: 
+      - ./data:/usr/src/redmine/files
+    environment:
+      POSTGRES_PORT_5432_TCP: postgres
+      POSTGRES_ENV_POSTGRES_USER: redmine
+      POSTGRES_ENV_POSTGRES_PASSWORD: password
+      POSTGRES_ENV_POSTGRES_DB: redmine
+
+  postgres:
+    image: postgres
+    environment:
+      POSTGRES_PASSWORD: password
+      POSTGRES_USER: redmine
+    volumes:
+      - ./redmine/postgres_data:/var/lib/postgresql/data
